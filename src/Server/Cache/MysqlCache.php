@@ -4,10 +4,10 @@
  * @author weihan
  * @datetime 2016年11月24日上午11:12:07
  */
-namespace Server\Cache;
+namespace SwooleDistributedWeb\Server\Cache;
 
-use Server\DataBase\MysqlAsynPool;
-use Server\DataBase\Miner;
+use Server\Asyn\Mysql\MysqlAsynPool;
+use Server\Asyn\Mysql\Miner;
 class MysqlCache implements ICache{
     /*缓存默认配置*/
     protected $setting = array(
@@ -36,7 +36,6 @@ class MysqlCache implements ICache{
     
     /**
      * mysql 设置key、value
-     * 不需要加yield，采用的异步
      * @param string $key
      * @param mixed $value
      * @param number $ttl   过期时间，单位秒
@@ -58,7 +57,7 @@ class MysqlCache implements ICache{
     }
 
     /**
-     * mysql 获取key值，使用时需要加yield
+     * mysql 获取key值
      * @param string $key
      * @return mixed
      *
@@ -66,7 +65,7 @@ class MysqlCache implements ICache{
      * @datetime 2016年11月17日下午3:25:10
      */
     function get($key){
-        $result = yield $this->mysql_pool->dbQueryBuilder
+        $result = $this->mysql_pool->dbQueryBuilder
             ->select('val')->from($this->setting['tbl_name'])
             ->where('name', $key)->where('expire', time(), Miner::GREATER_THAN_OR_EQUAL)
             ->coroutineSend();

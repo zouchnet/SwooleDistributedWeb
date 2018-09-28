@@ -1,11 +1,11 @@
 <?php $this->layout('app::layout', ['title'=>'个人信息', 'userid'=>$userid, 'userinfo'=>$userinfo]) ?>
-<link rel="stylesheet" type="text/css" href="<?=$this->url($this->asset('/css/reg.css'))?>" />
+<link rel="stylesheet" type="text/css" href="<?=$this->url('/css/reg.css')?>" />
 <?php $this->insert('app::formValidator', ['form'=>$form])?>
 <script type="text/javascript">
 </script>
 
 <div class="form-style2">
-	<form id="form1" name="form1" method="post" onSubmit='return submitCheck()'>
+	<form id="form1" name="form1" method="post">
     	<?php foreach ($form['input'] as $field=>$input):?>
         <div class="line" <?php if($input['type'] == 'cascade_select')echo "id='$field'";?>>
         	<span><?php if (isset($form['label'][$field]))echo $form['label'][$field]?></span>
@@ -32,21 +32,11 @@
         	
         	<!-- 级联select -->	
         	<?php elseif ($input['type'] == 'cascade_select'):?>
-        		<?php if($field == 'city_select'):?>	
+        		<?php foreach($input['selects'] as $select):?>	
         		<div class="select1">
-					<?=$input['province']?>
+					<?=$select?>
 				</div>
-				<div class="select1">
-					<?=$input['city']?>
-				</div>
-				<div class="select1">
-					<?=$input['county']?>
-				</div>
-				<?php elseif($field == 'realm_div_id'):?>	
-				<div class="select1">
-					<?=$input['realm']?>
-				</div>
-				<?php endif;?>
+				<?php endforeach;?>
 				<?=$input['js']?>
         		<?=$input['tips_container']?>
         		

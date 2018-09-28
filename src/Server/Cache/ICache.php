@@ -7,11 +7,10 @@
  * @author weihan
  * @datetime 2016年11月23日上午10:32:16
  */
-namespace Server\Cache;
+namespace SwooleDistributedWeb\Server\Cache;
 
 
 interface ICache{
-    
     function set($key, $value, $ttl=0);
     
     function get($key);

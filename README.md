@@ -1,46 +1,115 @@
-# SwooleDistributedWeb v0.1
-swoole api/web 开发框架，基于SwooleDistributed（原有功能100%支持），水平有限，欢迎指正。  
+# SwooleDistributedWeb v6.2 
+版本号与swooledistributed保持一致 
+升级注意：model中如果$return_result已失效，之前的事务也不支持！  
+model中目前不支持recv()  
+默认模板依旧是plates引擎，如果使用blade注释AppServer.php中的setTemplateEngine方法  
+swoole 分布式全栈框架 web开发增强版，基于SwooleDistributed，水平有限，欢迎指正。  
 内置demo，包含用户注册、登录、修改信息
+## Install
+You can install via composer
 
-# 文档
-1. SwooleDistributedWeb  
- https://jianghua.gitbooks.io/swooledistributedweb/content/
-2. SwooleDistributed 文档  
- https://tmtbe.gitbooks.io/swooledistributed/content/
-3. Swoole 文档  
- http://wiki.swoole.com/
+Autoload must specify `app` and `test`.
+```
+{
+  "require": {
+    "jianghua/swooledistributedweb":">3.6.0"
+  },
+ "autoload": {
+    "psr-4": {
+      "SwooleDistributedWeb\\app\\": "src/app",
+      "app\\": "src/app",
+      "test\\": "src/test"
+    }
+  }
+}
+```
+Then execute the following code in the root directory (the vendor higher directory)
+```
+php vendor/jianghua/swooledistributedweb/src/Install.php
+```
+The server can be executed in the bin at the end of the installation.
 
-# 特性  
-1. 优秀的框架（MVC）设计,丰富的支持极大加快开发速度  
-2. 通过开启不同端口同时支持TCP和HTTP，WebSocket，同一逻辑处理不同协议  
-3. 全异步支持，无需手动处理连接池，异步redis,异步mysql，mysql语法构建器，支持异步mysql事务,异步httpclient，效率出众  
-4. 协程模式全支持，异步redis，异步mysql，异步httpclient，异步task，全部都提供了协程模式，业务代码摆脱处处回调的困扰（不是swoole2.0，php7同样支持）  
-5. 支持协程嵌套，支持协程内异常处理（和正常逻辑用法一样）  
-6. 额外提供了protobuf完整RPC实例，轻松使用protobuf  
-7. 天然分布式的支持，一台机器不够零配置，零代码修改完成高效分布式系统的搭建  
-  
-以上都是流弊SwooleDistributed的特性，SwooleDistributedWeb特性如下：  
-1. 封装常用的web功能，支持cookie、session、cache、form、validate、验证码、文件上传、分页等  
-2. 自动生成表单，自动生成表单前台验证js，后台自动验证表单；只需在model中配置即可使用  
-3. 数据库操作封装增删改查，更加方便编写  
-4. session/cache 支持redis（默认）、mysql、文件（分布式不建议使用）  
-5. 使用plates模板引擎  
-6. 可businessConfig.php中指定域名、默认控制器、默认方法、文件上传目录、上传大小；内置uc、ckeditor  
+SwooleDistributedWeb 文档 
+https://www.gitbook.com/book/jianghua/swooledistributedweb/details
+# SwooleDistributed
 
-# 安装须知
-1. php 7.0  5.6的用户需要自己修改源码，将php7的部分语法重写。强烈推荐php7.X搭配最新的swoole1.X系列。
-2. 强烈建议使用最新版的swoole，请通过github下载编译。最新版修复了很多php7下的bug  
-3. 需要redis支持，安装hredis扩展  swoole编译时选择异步redis选项  
-4. 需要composer支持，安装composer，运行composer install安装依赖  
-5. 如需集群自行搭建LVS  
+High performance, high concurrency, PHP asynchronous distributed framework,power by ext-swoole
 
-# 运行
-php start_swoole_server.php start  
+Development communication QQ-group：569037921  
 
-#安装
-可以参考  安装.md、注意事项.md
+Simple websocket case
 
-#截图
-![image](https://github.com/jianghua/SwooleDistributedWeb/blob/master/screenshots/login.jpg)
-![image](https://github.com/jianghua/SwooleDistributedWeb/blob/master/screenshots/reg.png)
-![image](https://github.com/jianghua/SwooleDistributedWeb/blob/master/screenshots/profile.jpg)
+Chat room: https://github.com/tmtbe/SD-todpole
+
+Live Demo: http://114.55.253.83:8081/
+
+The official website：http://sd.youwoxing.net
+
+Development document：http://docs.youwoxing.net
+
+Instructional video：http://v.qq.com/boke/gplay/337c9b150064b5e5bcfe344f11a106c5_m0i000801b66cfv.html
+
+## Install
+You can install via composer
+
+Autoload must specify `app` and `test`.
+```
+{
+  "require": {
+    "tmtbe/swooledistributed":">2.0.0"
+  },
+ "autoload": {
+    "psr-4": {
+      "app\\": "src/app",
+      "test\\": "src/test"
+    }
+  }
+}
+```
+Then execute the following code in the root directory (the vendor higher directory)
+```
+php vendor/tmtbe/swooledistributed/src/Install.php
+```
+The server can be executed in the bin at the end of the installation.
+
+## Advantage
+
+1.High performance and high concurrency, asynchronous event driven
+
+2.HttpClient, client, Mysql, Redis connection pooling
+
+3.Timed task system
+
+4.Coroutine Support
+
+5.Using object pooling mode, optimizing memory allocation and GC
+
+6.Many asynchronous clients, such as MQTT, AMQP, etc.
+
+7.Support cluster deployment
+
+8.User process management
+
+9.Support multi port, multi protocol, automatic conversion between protocols
+
+10.Micro service management based on Consul
+
+11.Automatic discovery of cluster nodes based on Consul
+
+12.Support pubish-subscribe mode
+
+## Architecture diagram
+
+### Class inheritance structure
+ ![image](https://raw.githubusercontent.com/tmtbe/SwooleDistributed/v2/screenshots/k1.png)
+
+### Process structure
+ ![image](https://raw.githubusercontent.com/tmtbe/SwooleDistributed/v2/screenshots/k2.png)
+ 
+### Cluster structure
+ ![image](https://raw.githubusercontent.com/tmtbe/SwooleDistributed/v2/screenshots/k3.png)
+
+## web 
+![image](https://github.com/jianghua/SwooleDistributedWeb/blob/v2/screenshots/login.jpg)
+![image](https://github.com/jianghua/SwooleDistributedWeb/blob/v2/screenshots/reg.png)
+![image](https://github.com/jianghua/SwooleDistributedWeb/blob/v2/screenshots/profile.jpg)

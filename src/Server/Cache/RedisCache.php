@@ -4,9 +4,9 @@
  * @author weihan
  * @datetime 2016年11月23日上午10:32:16
  */
-namespace Server\Cache;
+namespace SwooleDistributedWeb\Server\Cache;
 
-use Server\DataBase\RedisAsynPool;
+use Server\Asyn\Redis\RedisAsynPool;
 class RedisCache implements ICache{
     /*缓存默认配置*/
     protected $setting = array(
@@ -24,7 +24,6 @@ class RedisCache implements ICache{
     
     /**
      * redis 设置key、value
-     * 不需要加yield，采用的异步
      * @param string $key
      * @param mixed $value
      * @param number $ttl   过期时间，单位秒
@@ -42,7 +41,7 @@ class RedisCache implements ICache{
     }
 
     /**
-     * redis 获取key值，使用时需要加yield
+     * redis 获取key值
      * @param string $key
      * @return mixed
      *
@@ -50,7 +49,7 @@ class RedisCache implements ICache{
      * @datetime 2016年11月17日下午3:25:10
      */
     function get($key){
-        $result = yield $this->redis_pool->coroutineSend('get', $key);
+        $result = $this->redis_pool->coroutineSend('get', $key);
         if ($result){
             return unserialize($result);
         }

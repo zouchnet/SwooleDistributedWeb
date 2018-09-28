@@ -1,8 +1,7 @@
 <?php
 namespace app\Controllers;
 
-use app\Helpers\Libs\Checkcode;
-use app\Helpers\Libs\Upload;
+use Web\Helpers\Libs\Checkcode;
 /**
  * 公共控制器
  * @author weihan
@@ -11,11 +10,8 @@ use app\Helpers\Libs\Upload;
  */
 class Pub extends BaseController
 {
-    
-    public function initialization(){
-        if (! parent::initialization()){
-            return false;
-        }
+    public function initialization($controller_name, $method_name){
+        parent::initialization($controller_name, $method_name);
     }
     
     /**
@@ -48,11 +44,12 @@ class Pub extends BaseController
         if (!empty($this->get('background')) && trim(urldecode($this->get('background'))) && preg_match('/(^#[a-z0-9){6}$)/im', trim(urldecode($this->get('background'))))) 
             $checkcode->background = trim(urldecode($this->get('background')));
         
-        $this->http_output->set_header("content-type", "image/png");        
+        $this->http_output->setHeader("content-type", "image/png");        
         $checkcode->doimage();
+        $data = ob_get_clean();
         $checkcode = $checkcode->get_code();
         $this->setSession('checkcode', $checkcode, 120);
-        $this->output();
+        $this->output($data);
     }
     
 }

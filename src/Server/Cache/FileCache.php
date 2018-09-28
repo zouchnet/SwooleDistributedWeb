@@ -4,7 +4,7 @@
  * @author weihan
  * @datetime 2016年11月23日下午3:40:34
  */
-namespace Server\Cache;
+namespace SwooleDistributedWeb\Server\Cache;
 
 
 class FileCache implements ICache{
@@ -18,7 +18,7 @@ class FileCache implements ICache{
     
     public function __construct($setting) {
         $this->setting = array_merge($this->setting, $setting);
-        $this->setting['cache_path'] = SRC_DIR. trim($this->setting['cache_path'], DIRECTORY_SEPARATOR). DIRECTORY_SEPARATOR;
+        $this->setting['cache_path'] = APP_DIR. DIRECTORY_SEPARATOR. trim($this->setting['cache_path'], DIRECTORY_SEPARATOR). DIRECTORY_SEPARATOR;
     }
     
     /**
@@ -65,8 +65,6 @@ class FileCache implements ICache{
      */
     public function get($key){
         $filename = $this->_getFileFullName($key);
-        //加yield是为了和其他缓存类型保持一致
-        yield $filename;
         if(file_exists($filename)){
             if(($time=@filemtime($filename))>time()){
                 $content = unserialize(file_get_contents($filename));

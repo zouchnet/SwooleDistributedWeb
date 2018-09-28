@@ -6,6 +6,8 @@
  */
 namespace app\Route;
 
+
+use Server\CoreBase\SwooleException;
 use Server\Route\IRoute;
 class NormalRoute implements IRoute
 {
@@ -20,11 +22,17 @@ class NormalRoute implements IRoute
      * 设置反序列化后的数据 Object
      * @param $data
      * @return \stdClass
+     * @throws SwooleException
      */
     public function handleClientData($data)
     {
         $this->client_data = $data;
-        return $this->client_data;
+        if (isset($this->client_data->controller_name) && isset($this->client_data->method_name)) {
+            return $this->client_data;
+        } else {
+            throw new SwooleException('route 数据缺少必要字段');
+        }
+
     }
 
     /**
@@ -86,11 +94,27 @@ class NormalRoute implements IRoute
 
     public function getPath()
     {
-        return $this->client_data->path;
+        return $this->client_data->path ?? "";
     }
 
     public function getParams()
     {
         return $this->client_data->params??null;
     }
+
+    public function errorHandle(\Throwable $e, $fd)
+    {
+        get_instance()->send($fd, "Error:" . $e->getMessage(), true);
+        get_instance()->close($fd);
+    }
+
+    public function errorHttpHandle(\Throwable $e, $request, $response)
+    {
+        //重定向到404
+        $response->status(302);
+        $location = 'http://' . $request->header['host'] . "/" . '404';
+        $response->header('Location', $location);
+        $response->end('');
+    }
+
 }

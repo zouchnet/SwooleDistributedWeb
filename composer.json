@@ -1,35 +1,34 @@
 {
-  "require": {
-    "monolog/monolog": "2.0.x-dev",
-    "hassankhan/config": "~0.10",
-    "voku/anti-xss": "2.0.1",
-    "league/plates": "3.*",
-    "protobuf-php/protobuf": "~0.1.2",
-    "protobuf-php/protobuf-plugin": "^0.1.2",
-    "php": ">=7.0.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Server\\": "src/Server",
-      "app\\": "src/app"
-    },
-    "files": [
-      "src/Server/Helpers/Common.php",
-      "src/app/Helpers/Funcs/Common.php"
-    ]
-  },
-  "authors": [
-    {
-      "name": "tmtbe",
-      "email": "896369042@qq.com",
-      "homepage": "https://github.com/tmtbe",
-      "role": "Developer"
-    }
-  ],
-  "repositories": {
-    "packagist": {
-      "type": "composer",
-      "url": "https://packagist.phpcomposer.com"
-    }
-  }
+	"require" : {
+		"tmtbe/swooledistributed" : "3.6.*",
+		"league/plates" : "@stable"
+	},
+	"autoload" : {
+		"files" : [
+			"src/Web/Helpers/Funcs/Common.php"
+		],
+		"psr-4" : {
+			"SwooleDistributedWeb\\Server\\" : "src/Server",
+			"SwooleDistributedWeb\\app\\" : "src/app",
+			"Web\\" : "src/Web",
+			"app\\" : "src/app",
+			"test\\" : "src/test"
+		}
+	},
+	"authors" : [{
+			"name" : "jianghua",
+			"email" : "380688162@qq.com",
+			"homepage" : "https://github.com/jianghua"
+		}
+	],
+	"name" : "jianghua/swooledistributedweb",
+	"type" : "library",
+	"keywords" : [
+		"server",
+		"swoole",
+		"distributed",
+		"web"
+	],
+	"description" : "swooledistributed web",
+	"license" : "MIT"
 }
